@@ -14,12 +14,12 @@ class CompetitiveGridWorld(gym.Env):
     def __init__(self, render_mode=None):
         super(CompetitiveGridWorld, self).__init__()
         
-        self.height = 5
-        self.width = 5
+        self.height = 10
+        self.width = 10
         self.render_mode = render_mode
         
-        self.bomb_location = (1, 3)
-        self.gold_location = (0, 3)
+        self.bomb_location = (2, 5)
+        self.gold_location = (0, 5)
         
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=0, high=1, shape=(self.height, self.width, 3), dtype=np.float32)
@@ -34,7 +34,7 @@ class CompetitiveGridWorld(gym.Env):
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
         
-        available_positions = [(4, i) for i in range(5)]
+        available_positions = [(9, i) for i in range(self.width)]
         positions = self.np_random.choice(len(available_positions), size=2, replace=False)
         
         self.agent_positions['q_learning'] = available_positions[positions[0]]
@@ -168,7 +168,7 @@ class QAgent:
         self.q_table[old_state][action] = (1 - self.alpha) * current_q + self.alpha * (reward + self.gamma * max_q_new)
 
 
-def train_q_agent(q_agent, env, episodes=1000):
+def train_q_agent(q_agent, env, episodes=3000):
     print("Training Q-Learning Agent...")
     rewards_history = []
     
@@ -176,7 +176,7 @@ def train_q_agent(q_agent, env, episodes=1000):
         env.reset()
         cumulative_reward = 0
         steps = 0
-        max_steps = 100
+        max_steps = 200
         
         while steps < max_steps:
             state = env.agent_positions['q_learning']
@@ -193,25 +193,25 @@ def train_q_agent(q_agent, env, episodes=1000):
         
         rewards_history.append(cumulative_reward)
         
-        if (episode + 1) % 200 == 0:
+        if (episode + 1) % 300 == 0:
             avg_reward = np.mean(rewards_history[-100:])
             print(f"Episode {episode + 1}/{episodes}, Avg Reward: {avg_reward:.2f}")
     
     return rewards_history
 
 
-def train_dqn_agent(env, total_timesteps=50000):
+def train_dqn_agent(env, total_timesteps=100000):
     print("\nTraining DQN Agent...")
     
     model = DQN(
         "MlpPolicy",
         env,
         learning_rate=1e-3,
-        buffer_size=10000,
-        learning_starts=1000,
-        batch_size=32,
+        buffer_size=20000,
+        learning_starts=2000,
+        batch_size=64,
         gamma=0.99,
-        exploration_fraction=0.3,
+        exploration_fraction=0.4,
         exploration_initial_eps=1.0,
         exploration_final_eps=0.05,
         verbose=1
@@ -242,7 +242,7 @@ def compete(q_agent, dqn_model, env, num_games=10, visualize=True):
         q_agent.epsilon = 0.0
         
         steps = 0
-        max_steps = 100
+        max_steps = 200
         
         if visualize:
             env.render()
