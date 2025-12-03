@@ -242,7 +242,7 @@ def compete(q_agent, dqn_model, env, num_games=10, visualize=True):
         q_agent.epsilon = 0.0
         
         steps = 0
-        max_steps = 200
+        max_steps = 500
         
         if visualize:
             env.render()

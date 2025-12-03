@@ -11,11 +11,11 @@ while not done:
     action, _ = model.predict(observation, deterministic=True)
     observation, reward, terminated, truncated, info = env.step(action)
     total_reward += reward
-    done = terminated or truncated
-    # if terminated or truncated:
-    #     obs, info = env.reset()
-    #     print("reward:", total_reward)
-    #     total_reward = 0
+    # done = terminated or truncated
+    if terminated or truncated:
+        obs, info = env.reset()
+        print("reward:", total_reward)
+        total_reward = 0
     
     env.render()
 
