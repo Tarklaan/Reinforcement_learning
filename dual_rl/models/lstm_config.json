@@ -1,0 +1,28 @@
+{
+  "window_size": 50,
+  "best_params": {
+    "batch_size": 16,
+    "n_layers": 2,
+    "units_l1": 128,
+    "dropout_l1": 0.1825371113899284,
+    "use_bidirectional": false,
+    "learning_rate": 0.0006921187976193558,
+    "units_l2": 96,
+    "dropout_l2": 0.3194015029161703,
+    "dense_units": 64
+  },
+  "best_val_loss": 0.9986200928688049,
+  "test_loss": 0.9996842741966248,
+  "test_mae": 0.9995524287223816,
+  "directional_accuracy": 0.5065686274509804,
+  "input_shape": [
+    50,
+    5
+  ],
+  "n_trials": 50,
+  "training_date": "2025-12-19 04:37:36",
+  "data_range": {
+    "start": "2024-06-01",
+    "end": "2025-09-16"
+  }
+}

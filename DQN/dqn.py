@@ -53,13 +53,13 @@ class GridWorld(gym.Env):
         new_pos = list(current_pos)
         
         if action == 0:
-            new_pos[0] = max(0, current_pos[0] - 1)
+            new_pos[0] = max(0, current_pos[0] - 1)                   #up
         elif action == 1:
-            new_pos[0] = min(self.height - 1, current_pos[0] + 1)
+            new_pos[0] = min(self.height - 1, current_pos[0] + 1)     #down
         elif action == 2:
-            new_pos[1] = max(0, current_pos[1] - 1)
+            new_pos[1] = max(0, current_pos[1] - 1)                   #left
         elif action == 3:
-            new_pos[1] = min(self.width - 1, current_pos[1] + 1)
+            new_pos[1] = min(self.width - 1, current_pos[1] + 1)      #right
         
         new_pos = tuple(new_pos)
         self.agent_position = new_pos
